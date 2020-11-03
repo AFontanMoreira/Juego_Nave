@@ -2,12 +2,19 @@ package com.company;
 
 import javax.swing.JFrame;
 import java.awt.*;
+import java.awt.image.BufferStrategy;
 
 public class Window  extends JFrame implements  Runnable {
 
 public static final  int WIDTH = 800, HEIGHT =600;
 private Canvas canvas;
 private Thread thread;
+private boolean running;
+
+private BufferStrategy bs;
+private Graphics g;
+
+
     public Window()
     {
         setTitle("Space Ship Game");
@@ -34,12 +41,42 @@ private Thread thread;
     public static void main(String[] args) {
         new Window().start();
     }
+    int x = 0;
+    private void update(){
+    x++;
+    }
 
+    private void draw(){
+    bs= canvas.getBufferStrategy();
+    if (bs==null){
+        canvas.createBufferStrategy(3);
+        return;
+    }
+
+    g = bs.getDrawGraphics();
+
+    //-----------------------
+
+    g.clearRect(0,0,WIDTH,HEIGHT);
+
+    g.drawRect(x,0,100,100);
+
+    //-----------------------
+
+    g.dispose();
+    bs.show();
+
+    }
 
     @Override
     public void run() {
 
+    while (running){
 
+        update();
+        draw();
+
+    }
 
     stop();
     }
@@ -47,7 +84,7 @@ private Thread thread;
 
     thread =new Thread(this);
     thread.start();
-
+    running = true;
 
     }
     private void  stop(){
@@ -55,6 +92,7 @@ private Thread thread;
         try {
 
             thread.join();
+            running = false;
 
         } catch (InterruptedException e) {
 
