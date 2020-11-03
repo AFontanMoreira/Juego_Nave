@@ -8,7 +8,8 @@ public class Window  extends JFrame implements  Runnable {
 public static final  int WIDTH = 800, HEIGHT =600;
 private Canvas canvas;
 private Thread thread;
-    public Window(){
+    public Window()
+    {
         setTitle("Space Ship Game");
         setSize(WIDTH, HEIGHT);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -31,21 +32,22 @@ private Thread thread;
 
 
     public static void main(String[] args) {
-        new Window();
+        new Window().start();
     }
 
-    new Window();
 
     @Override
     public void run() {
 
-    stop();
 
+
+    stop();
     }
     private void  start(){
 
     thread =new Thread(this);
     thread.start();
+
 
     }
     private void  stop(){
